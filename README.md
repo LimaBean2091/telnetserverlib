@@ -1,3 +1,3 @@
 # telnetserverlib
 A simple, lightweight synchronus telnet server library
-This library is in its beta phase so it may throw errors, and I am working on client threads so you can have multiple connections.2
+This library is in its beta phase so it may throw errors, if it does, please report the full error in the issues tab. I am currently working on client threads so you can have multiple connections.
