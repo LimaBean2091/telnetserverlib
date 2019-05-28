@@ -22,11 +22,11 @@ class TelnetServer():
         self.connection, self.addr = self.telSock.accept()
         
     def write(self,message):
-        if (self.connection is not None):
+        if (self.connection is not None and message is not None):
             self.connection.sendall(bytearray(message,'UTF-8'))
             
     def writeln(self,message):
-        if (self.connection is not None):
+        if (self.connection is not None and message is not None):
             self.connection.sendall(bytearray(message+"\n",'UTF-8'))
 
     def read_until(self,bytecount=1024):
@@ -39,7 +39,7 @@ class TelnetServer():
                 return None
         
     def query(self,query):
-        if (self.connection is not None):
+        if (self.connection is not None and query is not None):
             self.write(query)
             data = b''
             commands = self.connection.recv(26);
@@ -49,9 +49,9 @@ class TelnetServer():
                     break
                 data += chunk.replace(b'\x05',b'');
             try:
-                return data.decode('UTF-8'), commands.decode('UTF-8')
+                return data.decode('UTF-8'), commands
             except:
-                return None
+                return None,None
     
     def getIP(self):
         if (self.addr is not None):
