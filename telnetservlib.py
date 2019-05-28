@@ -31,9 +31,10 @@ class TelnetServer():
 
     def read_until(self,bytecount=1024):
         if (self.connection is not None):
+            commands = self.connection.recv(26)
             data = self.connection.recv(bytecount);
             try:
-                return data.decode('UTF-8')
+                return data.decode('UTF-8'), commands.decode('UTF-8')
             except:
                 return None
         
@@ -41,14 +42,14 @@ class TelnetServer():
         if (self.connection is not None):
             self.write(query)
             data = b''
-            self.connection.recv(26);
+            commands = self.connection.recv(26);
             while True:
                 chunk = self.connection.recv(1)
                 if (chunk == b'\r'):
                     break
                 data += chunk.replace(b'\x05',b'');
             try:
-                return data.decode('UTF-8')
+                return data.decode('UTF-8'), commands.decode('UTF-8')
             except:
                 return None
     
